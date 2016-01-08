@@ -5,17 +5,24 @@ package bloc.whattowear.model;
  */
 public class WeatherModel {
     private String temperature;
+    private Main main;
 
     public WeatherModel() {
     }
 
-    public String getTemperature() {
-        return temperature;
+    public Main getMain(){
+        return main;
     }
 
-    public void setTemperature(String temperature){
-        this.temperature = temperature;
-    }
+    public class Main{
 
+        private double temp;
+
+        public double getTemp() {
+            return temp;
+        }
+
+    }
 
 }
+

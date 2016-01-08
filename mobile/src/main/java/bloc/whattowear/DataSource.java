@@ -9,16 +9,16 @@ public class DataSource {
 
     private WeatherModel weatherModel;
 
-    public DataSource(){
-        testData();
-    }
+//    public DataSource(){
+//        testData();
+//    }
 
     public WeatherModel getWeatherModel(){
         return weatherModel;
     }
 
-    void testData(){
-        weatherModel = new WeatherModel("26");
-    }
+//    void testData(){
+//        weatherModel = new WeatherModel("26");
+//    }
 
 }

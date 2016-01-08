@@ -1,6 +1,5 @@
 package bloc.whattowear;
 
-import android.net.NetworkRequest;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         TextView temp = (TextView) findViewById(R.id.tempText);
         NetworkRequest request = new NetworkRequest();
-        request.execute(new String[]{"Hopkins"})
+        request.execute(new String[]{"Hopkins"});
     }
 
     @Override
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class NetworkRequest extends AsyncTask<String, Void, String>{
+    private class NetworkRequest extends AsyncTask<String, String, WeatherModel>{
 
         @Override
         protected WeatherModel doInBackground(String... params) {
