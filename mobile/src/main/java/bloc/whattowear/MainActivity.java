@@ -1,13 +1,19 @@
 package bloc.whattowear;
 
+import android.net.NetworkRequest;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.json.JSONException;
+
+import bloc.whattowear.model.WeatherModel;
+import bloc.whattowear.network.APIRequest;
+import bloc.whattowear.network.JSONParser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,15 +23,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        TextView temp = (TextView) findViewById(R.id.tempText);
+        NetworkRequest request = new NetworkRequest();
+        request.execute(new String[]{"Hopkins"})
     }
 
     @Override
@@ -49,4 +49,21 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private class NetworkRequest extends AsyncTask<String, Void, String>{
+
+        @Override
+        protected WeatherModel doInBackground(String... params) {
+            WeatherModel weather = new WeatherModel();
+            String data = ((new APIRequest()).getWeatherData(params[0]));
+
+            try{
+                weather = JSONParser.getWeather(data);
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+            return weather;
+        }
+    }
+
 }
