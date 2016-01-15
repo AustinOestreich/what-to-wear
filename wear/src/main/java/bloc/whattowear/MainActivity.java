@@ -1,7 +1,10 @@
 package bloc.whattowear;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.WatchViewStub;
 import android.widget.TextView;
 
@@ -20,5 +23,11 @@ public class MainActivity extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
             }
         });
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        CardFragment cardFragment = CardFragment.create(getString(R.string.title), "yo");
+        fragmentTransaction.add(R.id.weather_layout, cardFragment);
+        fragmentTransaction.commit();
     }
 }
+

@@ -1,6 +1,6 @@
 package bloc.whattowear;
 
-import android.os.AsyncTask;
+import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,11 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import org.json.JSONException;
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import bloc.whattowear.model.WeatherModel;
-import bloc.whattowear.network.APIRequest;
-import bloc.whattowear.network.JSONParser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,9 +22,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        TextView temp = (TextView) findViewById(R.id.tempText);
-        NetworkRequest request = new NetworkRequest();
-        request.execute(new String[]{"Hopkins"});
+        final TextView temp = (TextView) findViewById(R.id.tempText);
+        DataSource dataSource = new DataSource();
+        dataSource.getWeatherData(new DataSource.WeatherDataCallback() {
+            @Override
+            public void success(WeatherModel model) {
+                temp.setText(Double.toString(model.getMain().getTemp()));
+            }
+
+            @Override
+            public void fail() {
+
+            }
+        }, "Hopkins");
     }
 
     @Override
@@ -47,22 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private class NetworkRequest extends AsyncTask<String, String, WeatherModel>{
-
-        @Override
-        protected WeatherModel doInBackground(String... params) {
-            WeatherModel weather = new WeatherModel();
-            String data = ((new APIRequest()).getWeatherData(params[0]));
-
-            try{
-                weather = JSONParser.getWeather(data);
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
-            return weather;
-        }
     }
 
 }

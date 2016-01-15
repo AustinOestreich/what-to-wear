@@ -12,11 +12,6 @@ import bloc.whattowear.model.WeatherModel;
 public class JSONParser {
 
     public static WeatherModel getWeather(String jsonString) throws JSONException {
-//        JSONObject object = new JSONObject(jsonString);
-//        WeatherModel model = new WeatherModel();
-//        model.setTemperature(Double.toString(object.getJSONObject("main").getDouble("temp")));
-//        return model;
-
         Gson gson = new Gson();
         return gson.fromJson(jsonString, WeatherModel.class);
     }
